@@ -1,13 +1,14 @@
 import React from 'react'
-import { Outlet, useParams } from 'react-router'
+import { Link, Outlet, useParams } from 'react-router'
 
 const UserDetails = () => {
-  const userId=useParams();
+  const {id}=useParams();
 
   return (
-    <div>
+    <div className='text-center'>
       <h1>User Details</h1>
-      <h2>User Id is : {userId.id}</h2>
+      <h2>User Id is : {id}</h2>
+      <h3><Link to='/users'>Go Back</Link></h3>
       
     </div>
   )

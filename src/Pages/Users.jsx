@@ -1,24 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router'
 
 const Users = () => {
-    const userData=[
-        {id:1, name:"Roshan"},
-        {id:2, name:"Bhavesh"},
-        {id:3, name:"Atharv"},
-        {id:4, name:"Sujal"},
-        {id:5, name:"Shreyas"},
-    ]
+  const url = "https://dummyjson.com/users"
+  const [userData, setUserData] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setLoading(true)
+    getUsersData()
+  }, [])
+
+  const getUsersData = async () => {
+    let response = await fetch(url)
+    response = await response.json()
+    setUserData(response.users)
+    setLoading(false)
+  }
+
   return (
     <div className='text-center'>
-        <h1 className='font-bold'>Users Page</h1>
-        {
-            userData.map((user,id)=>(
-                <div key={id}>
-                    <NavLink to={"/users/"+user.name}>{user.name}</NavLink>
-                </div>
-            ))
-        }
+      {loading ? (
+        <h2>Loading...</h2>   // 👈 simple loading text
+      ) : (
+        <>
+          <h1 className='font-bold'>Users Page</h1>
+          {userData.map((user, id) => (
+            <div key={id}>
+              <NavLink to={"/users/" + user.id}>{user.firstName}</NavLink>
+              <NavLink to={"/users/" + user.id}>{user.lastName}</NavLink>
+              <NavLink to={"/users/" + user.id}>{user.age}</NavLink>
+            </div>
+          ))}
+        </>
+      )}
     </div>
   )
 }
